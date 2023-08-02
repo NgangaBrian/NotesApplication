@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    tools:context=".LoginActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="400dp"
+                android:padding="20dp">
+
+                <EditText
+                    android:layout_width="320dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/login_email"
+                    android:background="@drawable/lavender_boarder"
+                    android:layout_marginTop="20dp"
+                    android:padding="8dp"
+                    android:hint="Email"
+                    android:drawableLeft="@drawable/ic_baseline_email_24"
+                    android:drawablePadding="8dp"
+                    android:ems="10"
+                    android:inputType="textEmailAddress" />
+
+
+                <EditText
+                    android:layout_width="320dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/login_password"
+                    android:background="@drawable/lavender_boarder"
+                    android:layout_marginTop="20dp"
+                    android:padding="8dp"
+                    android:hint="Enter Password"
+                    android:drawableLeft="@drawable/ic_baseline_lock_24"
+                    android:drawablePadding="8dp"
+                    android:inputType="textPassword"/>
+
+
+
+                <Button
+                    android:id="@+id/login_button"
+                    android:layout_width="320dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/rounded_button"
+                    android:gravity="center"
+                    android:text="Login"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="italic"
+                    android:layout_marginTop="30dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/signupRedirectText"
+                    android:text="Not Registered? Register"
+                    android:layout_gravity="center"
+                    android:padding="8dp"
+                    android:textSize="18sp"
+                    android:layout_marginTop="14dp"
+                    android:textColor="@color/lavender"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
