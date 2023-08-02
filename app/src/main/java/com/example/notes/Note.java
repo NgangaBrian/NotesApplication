@@ -8,8 +8,8 @@ public class Note  {
 
     }
 
-    public Note(int id, String title, String description, String noteDate, String noteTime) {
-        this.id = id;
+    public Note(String title, String description, String noteDate, String noteTime) {
+
         this.title = title;
         this.description = description;
         this.noteDate = noteDate;
