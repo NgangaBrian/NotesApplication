@@ -58,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                     }
                     else {
-                        Toast.makeText(SignUpActivity.this, "Invalid Password",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpActivity.this, "Confirm Password is not same as Password",Toast.LENGTH_SHORT).show();
                     }
                 }
                 else {

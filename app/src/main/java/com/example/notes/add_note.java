@@ -21,37 +21,44 @@ public class add_note extends AppCompatActivity {
     public Button add;
     String todayDate, currentTime;
     Calendar calendar;
+    DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
 
-
-
         title = findViewById(R.id.titleinput);
         description = findViewById(R.id.description);
-
-        calendar = Calendar.getInstance();
-        todayDate = calendar.get(Calendar.YEAR) + "/" +calendar.get(Calendar.MONTH) + "/" + calendar.get(Calendar.DAY_OF_MONTH);
-        currentTime = pad(calendar.get(Calendar.HOUR))+":"+ pad(calendar.get(Calendar.MINUTE));
-
-        Log.d("Calender", "Date and Time" + todayDate+"and"+currentTime);
+        databaseHelper = new DatabaseHelper(this);
 
         add = findViewById(R.id.add);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 blinkButton(view);
-                Note noteModel = new Note(title.getText().toString(), description.getText().toString(), todayDate, currentTime);
-                DatabaseHelper db = new DatabaseHelper(add_note.this);
-                db.AddNote(noteModel);
+                String noteTitle = title.getText().toString();
+                String noteDescription = description.getText().toString();
+                databaseHelper = new DatabaseHelper(add_note.this);
 
-                Intent intent = new Intent(add_note.this, MainActivity.class);
-                startActivity(intent);
+                if(noteTitle.isEmpty()){
+                    Toast.makeText(add_note.this, "Add Note Title", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    calendar = Calendar.getInstance();
+                    todayDate = calendar.get(Calendar.YEAR) + "/" +calendar.get(Calendar.MONTH) + "/" + calendar.get(Calendar.DAY_OF_MONTH);
+                    currentTime = pad(calendar.get(Calendar.HOUR))+":"+ pad(calendar.get(Calendar.MINUTE));
 
-                Toast.makeText(add_note.this, "Note Saved", Toast.LENGTH_SHORT).show();
-            }
+                    Boolean insertNote = databaseHelper.AddNote(noteTitle, noteDescription, todayDate, currentTime);
+
+
+                        Intent intent = new Intent(add_note.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                        Toast.makeText(add_note.this, "Note Saved", Toast.LENGTH_SHORT).show();
+                        databaseHelper.closeDatabase();
+
+                }}
         });
     }
 

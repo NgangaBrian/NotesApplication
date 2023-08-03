@@ -15,6 +15,8 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
+    DatabaseHelper databaseHelper;
+
     public static final String databaseName = "Notes.db";
 
     public DatabaseHelper(@Nullable Context context) {
@@ -25,18 +27,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase myDatabase) {
         myDatabase.execSQL("create Table allusers(email TEXT primary key, password TEXT)");
-        String query = "Create Table notes(id INT PRIMARY KEY AUTOINCREMENT, " +
-                        "Title TEXT, " +
-                        "Description TEXT, " +
-                        "DateCreated TEXT, " +
-                        "TimeCreated)";
-        
-              myDatabase.execSQL(query);    }
+        String query = "Create Table note(id INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Description TEXT, DateCreated TEXT, TimeCreated TEXT)";
+        myDatabase.execSQL(query);
+    }
 
     @Override
     public void onUpgrade(SQLiteDatabase myDatabase, int i, int i1) {
         myDatabase.execSQL("drop Table if exists allusers");
-        myDatabase.execSQL("Drop Table if exists notes");
+        myDatabase.execSQL("Drop Table if exists note");
         onCreate(myDatabase);
     }
     public Boolean insertData(String email, String password){
@@ -75,7 +73,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
-    public long AddNote (Note noteModel){
+    public long AddNotes (Note noteModel){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("Title", noteModel.getTitle());
@@ -87,11 +85,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d("Inserted", "id -->" + ID);
         return ID;
     }
+    public void closeDatabase() {
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null && db.isOpen()) {
+            db.close();
+        }
+    }
+    public Boolean AddNote (String title, String description, String datecreated, String timecreated){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("Title", title);
+        contentValues.put("Description", description);
+        contentValues.put("DateCreated", datecreated);
+        contentValues.put("TimeCreated", timecreated);
+        long result = db.insert("note", null, contentValues);
+
+        if (result != 1) return false;
+        else {
+            return  true;
+        }
+    }
+    public boolean deleteNoteById(int noteId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int deletedRows = db.delete("note", "id = ?", new String[]{String.valueOf(noteId)});
+        return deletedRows > 0;
+    }
     public List<Note> getNote(){
         SQLiteDatabase db = this.getReadableDatabase();
         List<Note> allNote = new ArrayList<>();
 
-        String queryStatement = "Select * From notes";
+        String queryStatement = "Select * From note";
         Cursor cursor = db.rawQuery(queryStatement, null);
 
         if(cursor.moveToFirst()){
