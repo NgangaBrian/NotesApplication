@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -73,25 +72,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
-    public long AddNotes (Note noteModel){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("Title", noteModel.getTitle());
-        contentValues.put("Description", noteModel.getDescription());
-        contentValues.put("DateCreated", noteModel.getNoteDate());
-        contentValues.put("TimeCreated", noteModel.getNoteTime());
 
-        long ID = db.insert("notes", null, contentValues);
-        Log.d("Inserted", "id -->" + ID);
-        return ID;
-    }
     public void closeDatabase() {
         SQLiteDatabase db = getWritableDatabase();
         if (db != null && db.isOpen()) {
             db.close();
         }
     }
-    public Boolean AddNote (String title, String description, String datecreated, String timecreated){
+    public Boolean AddNote ( String title, String description, String datecreated, String timecreated){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("Title", title);
@@ -105,9 +93,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return  true;
         }
     }
-    public boolean deleteNoteById(int noteId) {
+    public boolean deleteNoteById(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        int deletedRows = db.delete("note", "id = ?", new String[]{String.valueOf(noteId)});
+        String whereClause = "Id = ?";
+        String[] whereArgs = new String[]{String.valueOf(id)};
+        int deletedRows = db.delete("note", whereClause, whereArgs);
         return deletedRows > 0;
     }
     public List<Note> getNote(){
